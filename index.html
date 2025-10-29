@@ -120,7 +120,7 @@
         html, body { 
             font-family: 'Inter', system-ui, Segoe UI, Roboto, sans-serif; 
             background: var(--bg); 
-            color: var(--text-color); /* CRITICAL: Sets high contrast text color */
+            color: var(--text-color); 
             scroll-behavior: smooth 
         }
         
@@ -164,11 +164,13 @@
             z-index: 1000;
             min-width: 250px;
         }
+        
+        /* Mobile Drawer Specific Fix */
+        .mobile-nav { background: rgba(0,0,0,0.8); } /* Darker backdrop fix */
     </style>
 </head>
 
-<body class="text-gray-800">
-    <div class="lab-vines" aria-hidden="true">
+<body class=""> <div class="lab-vines" aria-hidden="true">
         <svg class="vine-tl" viewBox="0 0 800 600" fill="none">
             <path d="M20,120 C120,40 280,80 360,40 420,10 520,20 600,60" stroke="rgba(183,245,200,.35)" stroke-width="14" stroke-linecap="round"/>
             <path d="M80,180 C180,120 300,140 400,90" stroke="rgba(143,209,140,.55)" stroke-width="8" stroke-linecap="round"/>
@@ -191,6 +193,29 @@
         <div class="flex items-center justify-between px-4 py-3">
             <a href="#home" class="font-extrabold text-lg">The Living Lab</a>
             <button id="mobileOpenBtn" class="border-2 border-white rounded px-3 py-1" type="button" aria-haspopup="dialog" aria-controls="mobileNav" aria-expanded="false">Menu</button>
+        </div>
+    </div>
+
+    <div id="mobileNav" class="mobile-nav hidden fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Navigation drawer">
+        <div class="mobile-panel" role="document">
+            <div class="flex items-center justify-between">
+                <div class="font-extrabold text-[--gold] text-lg">The Living Lab</div>
+                <button id="mobileCloseBtn" class="p-2" type="button" aria-label="Close menu">✕</button>
+                </div>
+            <nav class="mt-3 space-y-1 text-sm">
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#about">What is this?</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#guided">Guided Mode</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#framework">Impact Ladder</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#planner">Planner</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#data-prep">Data Prep Coach</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#platform-finder">Platform Finder</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#risen">RISEN</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#story">Story</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#ten-day">10-Day</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#process-plug">Process Plug-In</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#sell">Sell It</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#connect">Join</a>
+            </nav>
         </div>
     </div>
 
@@ -221,29 +246,6 @@
                 </div>
             </div>
         </aside>
-
-        <div id="mobileNav" class="mobile-nav" role="dialog" aria-modal="true" aria-label="Navigation drawer">
-            <div class="mobile-panel" role="document">
-                <div class="flex items-center justify-between">
-                    <div class="font-extrabold text-[--gold] text-lg">The Living Lab</div>
-                    <button id="mobileCloseBtn" class="p-2" type="button" aria-label="Close menu">✕</button>
-                    </div>
-                <nav class="mt-3 space-y-1 text-sm">
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#about">What is this?</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#guided">Guided Mode</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#framework">Impact Ladder</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#planner">Planner</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#data-prep">Data Prep Coach</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#platform-finder">Platform Finder</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#risen">RISEN</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#story">Story</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#ten-day">10-Day</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#process-plug">Process Plug-In</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#sell">Sell It</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#connect">Join</a>
-                </nav>
-            </div>
-        </div>
 
         <main id="main">
             <div class="lab-divider" aria-hidden="true"></div> <section id="home" class="header-bg sparkle text-white rounded-xl p-6 glow">
@@ -378,7 +380,8 @@
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="plannerExplain()">Generate Plan</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="openEvidenceModal('planner')">Evidence Menu</button>
+                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="plannerExplain()">Generate Plan</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="openEvidenceModal('planner')">Evidence Menu</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPlan()">Download</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlan()">Copy Raw Text</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlannerEmailPrompt()">Copy AI Polish Prompt</button>
@@ -435,7 +438,8 @@
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="dpExplain()">Make Spec</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadCSVTemplate()">CSV Template</button>
+                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="dpExplain()">Make Spec</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadCSVTemplate()">CSV Template</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPrepChecklist()">Checklist</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDataPrompt()">Copy AI Prompt (Raw Spec)</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDPExplainPrompt()">Copy AI Explain Prompt</button>
@@ -508,7 +512,8 @@
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="pfExplain()">Generate Rec</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPFChecklist()">Download Checklist</button>
+                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="pfExplain()">Generate Rec</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPFChecklist()">Download Checklist</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copySearchString()">Copy Search String</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPFTradeoffsPrompt()">Copy AI Memo Prompt</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('pf_output','Platform Finder Rec')">Email</button>
@@ -1082,6 +1087,20 @@ Search string:
         Thanks!`;
             location.href = `mailto:edbostic83@gmail.com?subject=PD/Consulting%20Inquiry&body=${body}`;
         };
+        
+        // CRITICAL MOBILE DRAWER LISTENERS
+        document.addEventListener('DOMContentLoaded', () => {
+            const nav = $('mobileNav');
+            const openBtn = $('mobileOpenBtn');
+            const closeBtn = $('mobileCloseBtn');
+            const showNav = () => nav?.classList.remove('hidden');
+            const hideNav = () => nav?.classList.add('hidden');
+
+            openBtn?.addEventListener('click', showNav);
+            closeBtn?.addEventListener('click', hideNav);
+            // click outside the panel closes it
+            nav?.addEventListener('click', (e) => { if (e.target === nav) hideNav(); });
+        });
     </script>
     </body>
 </html>
