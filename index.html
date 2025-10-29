@@ -14,7 +14,6 @@
     <script>
     (function () {
         const s = document.createElement('script');
-        // Updated cache-buster version for today
         s.src = 'https://cdn.tailwindcss.com?plugins=forms,typography&v=20251028'; 
         s.defer = true;
         s.onload = () => console.log('Tailwind CDN loaded successfully');
@@ -47,7 +46,7 @@
         html, body { 
             font-family: 'Inter', system-ui, Segoe UI, Roboto, sans-serif; 
             background: var(--bg); 
-            color: var(--text-color); /* Set default text to soft white */
+            color: var(--text-color); 
             scroll-behavior: smooth 
         }
         
@@ -64,37 +63,37 @@
         /* Buttons */
         .gold-btn { 
             background: var(--gold); 
-            color: var(--navy); /* Dark text on gold */
+            color: var(--navy);
             font-weight: 800; 
             transition: .15s;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.4); /* Lifted shadow */
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.4);
         }
         .gold-btn:hover { background: var(--gold2); transform: translateY(-1px) }
         .gold-btn.lift:hover { transform: translateY(-2px); box-shadow: 0 6px 10px -1px rgba(0,0,0,0.5) }
 
         /* Cards/Panels */
         .glow { 
-            background: var(--card-bg); /* Use the deepest dark color */
-            box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(253,214,129,.1); /* Dark shadow + subtle gold border */
-            color: var(--text-color); /* Text inside cards */
+            background: var(--card-bg);
+            box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(253,214,129,.1);
+            color: var(--text-color);
         }
         .lift:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(0,0,0,.4) }
         
         /* Input/Select Fields */
         input, textarea, select {
-            background: #4A5568; /* Darker than BG but lighter than card-bg */
+            background: #4A5568;
             border: 1px solid #4A5568;
             color: var(--text-color);
         }
-        input::placeholder, textarea::placeholder { color: #A0AEC0; } /* Light gray placeholder */
+        input::placeholder, textarea::placeholder { color: #A0AEC0; }
         input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(253,214,129,.3); }
 
         /* Other elements */
         .underline-anim { 
-            background: linear-gradient(90deg, #FDD681, #fff, #FDD681); /* Brighter gold shimmer */
+            background: linear-gradient(90deg, #FDD681, #fff, #FDD681);
             background-size: 200% 100%;
         }
-        .mobile-panel { background: #323b4c; } /* Darker mobile panel */
+        .mobile-panel { background: #323b4c; }
         .mobile-nav { background: rgba(0,0,0,.7); }
 
         /* Help chip styles adjusted for dark background */
@@ -120,10 +119,10 @@
 
         /* Output Boxes */
         #planner-output, #dp_output, #pf_output, #risen-output, #story-output, #ten-day-output, #process-plug-output, #sell-output {
-            background: #1A202C; /* Deepest dark for code/output */
-            color: #B2F5EA; /* Light teal/cyan for code text for a "jazzy" terminal feel */
+            background: #1A202C;
+            color: #B2F5EA;
             border: 1px solid #4A5568;
-            white-space: pre-wrap; /* Ensure content is wrapped */
+            white-space: pre-wrap;
         }
         
         /* Badge colors adjusted */
@@ -156,8 +155,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[260px_minmax(0,1fr)] gap-6 py-6">
         <aside class="hidden md:block sidebar" aria-label="Section navigation">
-            <div class="bg-white rounded-xl p-4 glow">
-                <div class="text-xl font-extrabold text-[--gold] mb-1">The Living Lab</div>
+            <div class="rounded-xl p-4 glow">  <div class="text-xl font-extrabold text-[--gold] mb-1">The Living Lab</div>
                 <p class="text-xs text-gray-400 mb-3">From Tools to Impact</p>
                 <nav class="space-y-1 text-sm">
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#about">What is this?</a>
@@ -315,28 +313,27 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="targetBehavior" class="p-3 border rounded w-full" placeholder="Desired behavior (e.g., peer feedback every Wed)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: desired behavior" onclick="toggleChip(this)">?</button><span class="chip-tip">Describe the repeatable habit, not just “use the tool.”</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: desired behavior" onclick="toggleChip(this)">?</button><span class="chip-tip">Describe the **weekly routine** people will do.</span></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="measurableOutcome" class="p-3 border rounded w-full" placeholder="Outcome (e.g., +5% attendance; rubric growth)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: outcome" onclick="toggleChip(this)">?</button><span class="chip-tip">Pick one measurable change you can track in 2–6 weeks.</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: outcome" onclick="toggleChip(this)">?</button><span class="chip-tip">Pick **one number** you can move in 2–6 weeks.</span></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="owner" class="p-3 border rounded w-full" placeholder="Owner + cadence (e.g., 6th ELA team • weekly)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: owner and cadence" onclick="toggleChip(this)">?</button><span class="chip-tip">Who does it, and how often. Cadence beats inspiration.</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: owner and cadence" onclick="toggleChip(this)">?</button><span class="chip-tip">**Who does it and how often** (cadence beats inspiration).</span></span>
                     </div>
                     <div class="md:col-span-2 flex items-center gap-2">
                         <input id="standardsPolicy" class="p-3 border rounded w-full" placeholder="Standards / Policy / Constraint (e.g., TEKS 6.4B; EDGAR; Local policy)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: standards/policy" onclick="toggleChip(this)">?</button><span class="chip-tip">Paste the exact standard/policy wording you’re addressing.</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: standards/policy" onclick="toggleChip(this)">?</button><span class="chip-tip">Paste the **exact rule/standard** text you’re addressing.</span></span>
                     </div>
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="generatePlanner()">Generate</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="openEvidenceModal('planner')">Evidence Menu</button>
+                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="plannerExplain()">Generate Plan</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="openEvidenceModal('planner')">Evidence Menu</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPlan()">Download</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlan()">Copy</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('planner-output','Tool-to-Impact Planner')">Email</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlan()">Copy Raw Text</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlannerEmailPrompt()">Copy AI Polish Prompt</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('planner-output','Tool-to-Impact Planner')">Email</button>
                 </div>
                 <div id="planner-output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
@@ -352,11 +349,11 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="dp_outcome" class="p-3 border rounded w-full" placeholder="Primary metric (e.g., daily attendance)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: primary metric" onclick="toggleChip(this)">?</button><span class="chip-tip">Name the metric you’ll judge progress by.</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: primary metric" onclick="toggleChip(this)">?</button><span class="chip-tip">Name the main number you'll track (the **primary metric**).</span></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="dp_unit" class="p-3 border rounded w-full" placeholder="Grain (student/day, campus/week, teacher/period)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: grain" onclick="toggleChip(this)">?</button><span class="chip-tip"><strong>Grain</strong> = one row’s level (student/day is common).</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: grain" onclick="toggleChip(this)">?</button><span class="chip-tip">**Grain** = what one row equals (e.g., student/day).</span></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="dp_window" class="p-3 border rounded w-full" placeholder="Time window (e.g., last 6 weeks)" />
@@ -368,11 +365,11 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="dp_ids" class="p-3 border rounded w-full" placeholder="Join keys/IDs (e.g., student_id, campus_id)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: join keys" onclick="toggleChip(this)">?</button><span class="chip-tip"><strong>Join key</strong> = unique ID used to connect tables.</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: join keys" onclick="toggleChip(this)">?</button><span class="chip-tip">**Join key** = IDs that match across all files (e.g., student_id).</span></span>
                     </div>
                     <div class="flex items-center gap-2 md:col-span-2">
                         <input id="dp_fields" class="p-3 border rounded w-full" placeholder="Fields (comma-separated: student_id,date,status)" />
-                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: fields" onclick="toggleChip(this)">?</button><span class="chip-tip"><strong>Fields</strong> = column names you’ll need, in order.</span></span>
+                        <span class="chip-wrap"><button class="chip" type="button" aria-label="Help: fields" onclick="toggleChip(this)">?</button><span class="chip-tip">**Fields** = column names you’ll need, in order.</span></span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input id="dp_filters" class="p-3 border rounded w-full" placeholder="Filters (e.g., drop withdrawn; exclude alt ed)" />
@@ -389,11 +386,10 @@
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="makeDataSpec()">Make Spec</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadCSVTemplate()">CSV Template</button>
+                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="dpExplain()">Make Spec</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadCSVTemplate()">CSV Template</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPrepChecklist()">Checklist</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDataPrompt()">Copy AI Prompt</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('dp_output','Data Prep Spec')">Email</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDataPrompt()">Copy AI Prompt (Raw Spec)</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDPExplainPrompt()">Copy AI Explain Prompt</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('dp_output','Data Prep Spec')">Email</button>
                 </div>
 
                 <div class="mt-4 text-xs text-gray-400">
@@ -462,10 +458,9 @@
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="generatePlatformRec()">Generate Rec</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPFChecklist()">Download Checklist</button>
+                    <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="pfExplain()">Generate Rec</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPFChecklist()">Download Checklist</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copySearchString()">Copy Search String</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('pf_output','Platform Finder Rec')">Email</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPFTradeoffsPrompt()">Copy AI Memo Prompt</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('pf_output','Platform Finder Rec')">Email</button>
                 </div>
 
                 <details class="mt-5 p-4 rounded text-sm">
@@ -698,17 +693,53 @@
             $('owner') && ($('owner').value = who==='student' ? '6th ELA team • weekly' : 'Campus ILT • Fridays');
         };
 
-        /* ---------- Planner ---------- */
-        window.generatePlanner = () => {
-            const plan = [
-                `Tool: ${text('toolName') || '(name the app/platform)'}`,
-                `Use → Habit: ${text('targetBehavior') || '(what people will do, on a cadence)'}`,
-                `Outcome (2–6 wks): ${text('measurableOutcome') || '(one measurable change)'}`,
-                `Owner + Cadence: ${text('owner') || '(who + how often)'}`,
-                `Standards/Policy: ${text('standardsPolicy') || '(paste exact wording: TEKS/EDGAR/local)'}`,
+        /* ===== BEGINNER HELPERS & PLANNER FUNCTIONS ===== */
+
+        /* Planner → plain-English + 'sendable' email */
+        window.plannerExplain = () => {
+            const tool   = ($('toolName')?.value || '').trim() || 'a specific app/tool';
+            const habit  = ($('targetBehavior')?.value || '').trim() || 'a simple weekly routine';
+            const outcome= ($('measurableOutcome')?.value || '').trim() || 'one measurable change in 2–6 weeks';
+            const owner  = ($('owner')?.value || '').trim() || 'who does it + how often';
+            const std    = ($('standardsPolicy')?.value || '').trim() || 'the rule/standard/policy you’re aligning to';
+
+            const simple = [
+                `Goal: Use ${tool} to build a repeatable habit that improves learning.`,
+                `Action: We will do "${habit}". ${owner}.`,
+                `Proof: We expect "${outcome}" and will align to: ${std}.`
             ].join('\n');
-            setOut('planner-output', plan);
+
+            const email = [
+                `Subject: Pilot Plan – ${habit}`,
+                ``,
+                `Hi team,`,
+                ``,
+                `Goal`,
+                `• Use ${tool} to drive a repeatable habit that moves a real outcome.`,
+                ``,
+                `Action`,
+                `• Weekly routine: ${habit}`,
+                `• Owner/cadence: ${owner}`,
+                ``,
+                `Required Support`,
+                `• Alignment to: ${std}`,
+                `• Evidence target (2–6 weeks): ${outcome}`,
+                ``,
+                `Thanks,`,
+                `Elizabeth`
+            ].join('\n');
+
+            const out = `BEGINNER SUMMARY\n${simple}\n\n— — —\n\nSENDABLE EMAIL DRAFT\n${email}`;
+            setOut('planner-output', out);
         };
+
+        window.copyPlannerEmailPrompt = () => {
+            const body = ($('planner-output')?.textContent || '').trim();
+            const prompt = `You are an education consultant. Polish the email below for clarity and brevity, preserving the 3 sections (Goal, Action, Required Support). Keep it under 150 words.\n\n---\n${body}`;
+            copyTxt(prompt);
+            showToast('AI prompt copied.', 'info');
+        };
+
         window.openEvidenceModal = () => {
             showToast('Evidence ideas: Before/after artifacts, submission counts, short surveys/rubric snapshots, screenshots/links.', 'info');
         };
@@ -716,8 +747,47 @@
         window.copyPlan        = () => copyTxt($('planner-output')?.textContent || '');
         window.emailElementText = (id, subject) => mail(subject, $(id)?.textContent || '');
 
-        /* ---------- Data Prep Coach ---------- */
-        window.makeDataSpec = () => {
+        /* ===== DATA PREP COACH FUNCTIONS ===== */
+
+        /* Data Prep → 3-sentence summary + pre-upload checklist */
+        window.dpExplain = () => {
+            const goal   = ($('dp_goal')?.value || '').trim() || 'make a decision or improvement';
+            const metric = ($('dp_outcome')?.value || '').trim() || 'a primary metric';
+            const grain  = ($('dp_unit')?.value || '').trim() || 'row level (e.g., student/day)';
+            const srcs   = ($('dp_sources')?.value || '').trim() || 'our systems/files';
+            const fields = ($('dp_fields')?.value || '').trim() || 'the needed columns';
+            const filters= ($('dp_filters')?.value || '').trim() || 'simple exclusions';
+            const privacy= ($('dp_privacy')?.value || '').trim() || 'privacy rules';
+            const quality= ($('dp_quality')?.value || '').trim() || 'basic quality checks';
+
+            const summary = [
+                `We will analyze "${metric}" to ${goal}.`,
+                `Each row is "${grain}" using data from ${srcs} with columns: ${fields}.`,
+                `We’ll exclude ${filters}; we’ll follow ${privacy} and apply checks: ${quality}.`
+            ].join(' ');
+
+            const checklist = [
+                `Quick Pre-Upload Checklist`,
+                `□ File has the columns in the right order`,
+                `□ Row level matches plan: ${grain}`,
+                `□ IDs are consistent (no duplicates)`,
+                `□ Filters applied: ${filters}`,
+                `□ No PII included unless approved (${privacy})`,
+                `□ Spot check for missing/outliers`
+            ].join('\n');
+
+            const out = `BEGINNER SUMMARY\n${summary}\n\n— — —\n\nQC CHECKLIST\n${checklist}`;
+            setOut('dp-output', out);
+        };
+
+        window.copyDPExplainPrompt = () => {
+            const spec = ($('dp-output')?.textContent || '').trim();
+            const prompt = `You are a friendly, non-technical instructional coach. Rewrite the content below into: (1) a 3-sentence explanation a teacher can read aloud, and (2) a numbered, 7-step checklist. Keep language plain.\n\n---\n${spec}`;
+            copyTxt(prompt);
+            showToast('AI prompt copied.', 'info');
+        };
+
+        window.makeDataSpec = () => { // Original Data Spec Generator (renamed to avoid conflict)
             const spec = [
                 `Goal/Decision: ${text('dp_goal')}`,
                 `Primary metric: ${text('dp_outcome')}`,
@@ -730,8 +800,9 @@
                 `Privacy: ${text('dp_privacy')}`,
                 `Quality: ${text('dp_quality')}`
             ].join('\n');
-            setOut('dp_output', spec);
+            setOut('dp-output', spec);
         };
+
         window.downloadCSVTemplate = () => {
             const cols = (text('dp_fields') || 'student_id,date,present,period,reason_code').split(/\s*,\s*/).join(',');
             dl('template.csv', cols + '\n');
@@ -753,12 +824,44 @@
     3) a quality-check list.
     
     Spec:
-    ${$('dp_output')?.textContent || '(fill the form first)'}`;
+    ${$('dp-output')?.textContent || '(fill the form first)'}`;
             copyTxt(p);
         };
 
-        /* ---------- Platform Finder ---------- */
-        window.generatePlatformRec = () => {
+        /* ===== PLATFORM FINDER FUNCTIONS ===== */
+
+        /* Platform Finder → one-paragraph tradeoffs memo */
+        window.pfExplain = () => {
+            const goal    = $('pf_goal')?.value || 'create';
+            const inputs  = Array.from($('pf_inputs')?.selectedOptions || []).map(o=>o.value);
+            const outputs = Array.from($('pf_outputs')?.selectedOptions || []).map(o=>o.value);
+            const risk    = $('pf_risk')?.value || 'low';
+            const time    = $('pf_time')?.value || 'minutes';
+            const flags   = [
+                $('pf_privacy')?.checked ? 'student privacy/FERPA' : null,
+                $('pf_blocked')?.checked ? 'no installs allowed' : null,
+                $('pf_no_cost')?.checked ? 'no new cost' : null,
+                $('pf_low_skill')?.checked ? 'low technical skill' : null,
+                $('pf_offline')?.checked ? 'offline/export needed' : null
+            ].filter(Boolean);
+            const collab  = $('pf_collab')?.value || 'solo';
+
+            const memo = [
+                `Goal: ${goal}. Inputs: ${inputs.join(', ') || 'text'} → Outputs: ${outputs.join(', ') || 'document'}.`,
+                `Tradeoffs: risk = ${risk}; time-to-value = ${time}; collaboration = ${collab}; constraints = ${flags.join(', ') || 'none'}.`,
+                `Biggest watch-outs: ${risk === 'high' ? 'public/audit risk' : 'imited impact scope'}, ${flags.includes('student privacy/FERPA') ? 'privacy approvals' : 'standard usage'}, and ${collab !== 'team' ? 'limited co-editing' : 'team coordination required'}.`
+            ].join(' ');
+            setOut('pf_output', memo);
+        };
+
+        window.copyPFTradeoffsPrompt = () => {
+            const rec = ($('pf_output')?.textContent || '').trim();
+            const prompt = `You are an IT director. Using the text below, write a short memo (≤120 words) that explains: (1) biggest risk, (2) biggest limitation for the team, (3) whether this fits our time window. Use plain language and bullet points.\n\n---\n${rec}`;
+            copyTxt(prompt);
+            showToast('AI prompt copied.', 'info');
+        };
+
+        window.generatePlatformRec = () => { // Original Platform Rec Generator (renamed to avoid conflict)
             const goal = $('pf_goal')?.value || 'create';
             const inputs = Array.from($('pf_inputs')?.selectedOptions || []).map(o => o.value);
             const outputs = Array.from($('pf_outputs')?.selectedOptions || []).map(o => o.value);
@@ -787,6 +890,7 @@ Search string:
 
             setOut('pf_output', rec);
         };
+
         window.downloadPFChecklist = () => dl('platform-checklist.txt',
 `Platform checklist
 [ ] Student-data compliant
