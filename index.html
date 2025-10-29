@@ -35,18 +35,18 @@
     <style>
         /* ----------------- JAZZY DARK MODE BASE ----------------- */
         :root { 
-            --navy:#1A202C;
-            --gold:#FDD681;
+            --navy:#1A202C; /* Base Charcoal */
+            --gold:#FDD681; /* Accent Color */
             --gold2:#EBC46B;
-            --bg:#2D3748;
-            --card-bg: #1A202C;
-            --text-color: #F7FAFC;
+            --bg:#2D3748; /* Secondary Dark Gray */
+            --card-bg: #1A202C; /* Deepest background for cards (Sidebar/Tools) */
+            --text-color: #F7FAFC; /* Soft White - High Contrast Text */
         }
 
-        /* ===== Living Lab skin (NEW) ===== */
+        /* ===== Living Lab skin (THEME DECORATIONS) ===== */
         :root{
-            --leaf:#8FD18C;         /* fresh green */
-            --mint:#B7F5C8;         /* highlight */
+            --leaf:#8FD18C;
+            --mint:#B7F5C8;
             --grid:rgba(255,255,255,.04);
             --vine:rgba(143,209,140,.18);
             --beaker:rgba(253,214,129,.18);
@@ -107,9 +107,6 @@
         }
         @keyframes shimmer{ to{ background-position:-200% 0; } }
 
-        /* Cards remain solid/readable */
-        .glow{ backdrop-filter: blur(0px); }
-
         /* Motion/visual safety */
         @media (prefers-reduced-motion: reduce){
             .underline-anim{ animation:none }
@@ -123,18 +120,23 @@
         html, body { 
             font-family: 'Inter', system-ui, Segoe UI, Roboto, sans-serif; 
             background: var(--bg); 
-            color: var(--text-color); 
+            color: var(--text-color); /* CRITICAL: Sets high contrast text color */
             scroll-behavior: smooth 
         }
-        .header-bg { background: var(--navy) }
-        .accent { color: var(--gold) }
-        .sparkle {
-            background:
-                radial-gradient(1000px 400px at 10% -10%, rgba(253,214,129,.15), transparent 60%),
-                radial-gradient(800px 400px at 90% 10%, rgba(26,32,44,.25), transparent 55%),
-                linear-gradient(180deg, #1A202C 0%, #1A202C 40%, #202736 100%);
+        
+        /* Sidebar Link Readability Fix */
+        aside a { color: var(--text-color); }
+        aside a:hover { background-color: rgba(255,255,255,0.1); } 
+        
+        /* Hero text (if inheriting from sparkle/header-bg) */
+        .header-bg, .sparkle { color: var(--text-color) !important; }
+
+        .glow { 
+            background: var(--card-bg); 
+            box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(253,214,129,.1);
+            color: var(--text-color);
         }
-        /* Buttons/Cards styles already handled by custom CSS above */
+        .lift:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(0,0,0,.4) }
         
         /* Input/Select Fields */
         input, textarea, select {
@@ -145,31 +147,6 @@
         input::placeholder, textarea::placeholder { color: #A0AEC0; }
         input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(253,214,129,.3); }
 
-        /* Other elements */
-        .mobile-panel { background: #323b4c; }
-        .mobile-nav { background: rgba(0,0,0,.7); }
-
-        /* Help chip styles adjusted for dark background */
-        .chip { background: var(--gold); border: 1px solid var(--gold); color: var(--navy); }
-        .chip-tip { background: #1A202C; border: 1px solid var(--gold); color: var(--text-color); box-shadow: 0 10px 24px rgba(0,0,0,.5); }
-        
-        /* Impact Ladder */
-        #framework .text-gray-500 { color: #A0AEC0 !important; }
-        #ladder-stu > div > div, #ladder-lea > div > div {
-            background: #3B4A5C;
-            color: var(--text-color);
-            box-shadow: inset 0 0 0 1px #4A5568;
-        }
-        #framework details { background: #3B4A5C; border-color: #4A5568; } 
-        #framework details summary { color: var(--gold); }
-        #framework .text-gray-700 { color: #A0AEC0 !important; }
-
-        /* Platform Finder Details - Custom styles re-applied */
-        #platform-finder details { background: var(--navy); color: white; border: 1px solid var(--gold); }
-        #platform-finder summary { color: var(--gold); font-weight: 800; }
-        #platform-finder ul { color: #ccc; }
-        #platform-finder p.font-semibold { color: var(--gold2); }
-
         /* Output Boxes */
         #planner-output, #dp_output, #pf_output, #risen-output, #story-output, #ten-day-output, #process-plug-output, #sell-output {
             background: #1A202C;
@@ -177,11 +154,6 @@
             border: 1px solid #4A5568;
             white-space: pre-wrap;
         }
-        
-        /* Badge colors adjusted */
-        .bg-green-100 { background-color: #38A169; color: white; }
-        .bg-indigo-100 { background-color: #553C9A; color: white; }
-        .bg-yellow-100 { background-color: #D69E2E; color: white; }
 
         /* Minimal safety net */
         button, .btn { padding:.6rem 1rem; border:1px solid #4A5568; border-radius:.5rem; background:#2D3748; color:var(--text-color) }
@@ -212,6 +184,7 @@
             </g>
         </svg>
     </div>
+    
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-white focus:text-[--navy] focus:px-3 focus:py-2 focus:rounded">Skip to main content</a>
 
     <div class="md:hidden header-bg sparkle text-white">
@@ -466,7 +439,7 @@
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPrepChecklist()">Checklist</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDataPrompt()">Copy AI Prompt (Raw Spec)</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDPExplainPrompt()">Copy AI Explain Prompt</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('dp-output','Data Prep Spec')">Email</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('dp_output','Data Prep Spec')">Email</button>
                 </div>
 
                 <div class="mt-4 text-xs text-gray-400">
