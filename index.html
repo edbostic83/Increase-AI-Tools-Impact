@@ -33,24 +33,99 @@
     <meta property="og:description" content="Work with AI like a strategic partner: choose the right platform, change habits, show evidence." />
 
     <style>
-        /* ----------------- JAZZY DARK MODE OVERHAUL ----------------- */
+        /* ----------------- JAZZY DARK MODE BASE ----------------- */
         :root { 
-            --navy:#1A202C; /* Dark Charcoal (Tailwind gray-900) - New Navy */
-            --gold:#FDD681; /* Brighter, warmer gold */ 
-            --gold2:#EBC46B; /* Slightly darker gold for hover */ 
-            --bg:#2D3748; /* Secondary Dark Gray (Tailwind gray-800) - New Background */
-            --card-bg: #1A202C; /* Deepest background for cards (Tailwind gray-900) */
-            --text-color: #F7FAFC; /* Soft White */
+            --navy:#1A202C;
+            --gold:#FDD681;
+            --gold2:#EBC46B;
+            --bg:#2D3748;
+            --card-bg: #1A202C;
+            --text-color: #F7FAFC;
         }
+
+        /* ===== Living Lab skin (NEW) ===== */
+        :root{
+            --leaf:#8FD18C;         /* fresh green */
+            --mint:#B7F5C8;         /* highlight */
+            --grid:rgba(255,255,255,.04);
+            --vine:rgba(143,209,140,.18);
+            --beaker:rgba(253,214,129,.18);
+        }
+
+        /* Lab grid + vignette behind everything */
+        body::before,
+        body::after{
+            content:"";
+            position:fixed; inset:0; z-index:-2; pointer-events:none;
+        }
+        body::before{
+            /* subtle grid pattern */
+            background:
+                linear-gradient(var(--grid) 1px, transparent 1px) 0 0/28px 28px,
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/28px 28px,
+                radial-gradient(1200px 600px at 15% -10%, rgba(253,214,129,.10), transparent 60%),
+                radial-gradient(900px 500px at 85% 10%, rgba(26,32,44,.25), transparent 55%);
+            filter: saturate(105%);
+        }
+        body::after{
+            /* soft vignette */
+            background: radial-gradient(1200px 700px at 50% 120%, rgba(0,0,0,.45), transparent 55%);
+        }
+
+        /* Corner vines (decor only) */
+        .lab-vines{
+            position:fixed; inset:0; z-index:-1; pointer-events:none;
+        }
+        .lab-vines svg{ position:absolute; opacity:.45; filter:saturate(110%); }
+        .lab-vines .vine-tl{ top:-20px; left:-10px; width:min(36vw,520px); }
+        .lab-vines .vine-br{ bottom:-30px; right:-10px; width:min(40vw,640px); transform:scaleX(-1) rotate(-2deg); }
+
+        /* Section dividers with lab glyphs */
+        .lab-divider{
+            position:relative; height:18px; margin:28px 0;
+        }
+        .lab-divider::before{
+            content:""; position:absolute; inset:auto 0; top:8px;
+            height:1px; background:linear-gradient(90deg, transparent, var(--beaker), transparent);
+        }
+        .lab-divider::after{
+            content:""; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);
+            width:44px; height:44px; border-radius:9999px;
+            background:
+                radial-gradient(circle at 50% 50%, var(--beaker), transparent 60%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="%23FDD681" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4.5l-4.5 7.8A3 3 0 0 0 7 20h10a3 3 0 0 0 2.5-4.7L15 7.5V3"/><path d="M6 14h12"/></svg>') center/22px 22px no-repeat;
+            opacity:.35;
+        }
+
+        /* Highlight lines under h2s */
+        h2 + .underline-anim,
+        .underline-anim{
+            height:2px; border-radius:9999px;
+            background:linear-gradient(90deg, var(--gold), #fff, var(--gold));
+            background-size:200% 100%; animation:shimmer 4s linear infinite;
+            opacity:.65;
+        }
+        @keyframes shimmer{ to{ background-position:-200% 0; } }
+
+        /* Cards remain solid/readable */
+        .glow{ backdrop-filter: blur(0px); }
+
+        /* Motion/visual safety */
+        @media (prefers-reduced-motion: reduce){
+            .underline-anim{ animation:none }
+        }
+        .hide-decor body::before,
+        .hide-decor body::after,
+        .hide-decor .lab-vines,
+        .hide-decor .lab-divider{ display:none !important; }
         
+        /* ----------------- BASE STYLES & OVERRIDES ----------------- */
         html, body { 
             font-family: 'Inter', system-ui, Segoe UI, Roboto, sans-serif; 
             background: var(--bg); 
             color: var(--text-color); 
             scroll-behavior: smooth 
         }
-        
-        /* Header/Hero Section */
         .header-bg { background: var(--navy) }
         .accent { color: var(--gold) }
         .sparkle {
@@ -59,25 +134,7 @@
                 radial-gradient(800px 400px at 90% 10%, rgba(26,32,44,.25), transparent 55%),
                 linear-gradient(180deg, #1A202C 0%, #1A202C 40%, #202736 100%);
         }
-
-        /* Buttons */
-        .gold-btn { 
-            background: var(--gold); 
-            color: var(--navy);
-            font-weight: 800; 
-            transition: .15s;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.4);
-        }
-        .gold-btn:hover { background: var(--gold2); transform: translateY(-1px) }
-        .gold-btn.lift:hover { transform: translateY(-2px); box-shadow: 0 6px 10px -1px rgba(0,0,0,0.5) }
-
-        /* Cards/Panels */
-        .glow { 
-            background: var(--card-bg);
-            box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(253,214,129,.1);
-            color: var(--text-color);
-        }
-        .lift:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(0,0,0,.4) }
+        /* Buttons/Cards styles already handled by custom CSS above */
         
         /* Input/Select Fields */
         input, textarea, select {
@@ -89,10 +146,6 @@
         input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(253,214,129,.3); }
 
         /* Other elements */
-        .underline-anim { 
-            background: linear-gradient(90deg, #FDD681, #fff, #FDD681);
-            background-size: 200% 100%;
-        }
         .mobile-panel { background: #323b4c; }
         .mobile-nav { background: rgba(0,0,0,.7); }
 
@@ -130,10 +183,9 @@
         .bg-indigo-100 { background-color: #553C9A; color: white; }
         .bg-yellow-100 { background-color: #D69E2E; color: white; }
 
-        /* START: Minimal safety net if Tailwind is missing (Tiny Style Shim) */
+        /* Minimal safety net */
         button, .btn { padding:.6rem 1rem; border:1px solid #4A5568; border-radius:.5rem; background:#2D3748; color:var(--text-color) }
         button.gold-btn { background:var(--gold); color:var(--navy); font-weight:700; border:0; }
-        /* END: Minimal safety net */
         
         /* Toast component CSS for the JS upgrade */
         #toast-notification {
@@ -144,6 +196,22 @@
 </head>
 
 <body class="text-gray-800">
+    <div class="lab-vines" aria-hidden="true">
+        <svg class="vine-tl" viewBox="0 0 800 600" fill="none">
+            <path d="M20,120 C120,40 280,80 360,40 420,10 520,20 600,60" stroke="rgba(183,245,200,.35)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M80,180 C180,120 300,140 400,90" stroke="rgba(143,209,140,.55)" stroke-width="8" stroke-linecap="round"/>
+            <g fill="rgba(143,209,140,.55)">
+                <circle cx="120" cy="160" r="6"/><circle cx="220" cy="110" r="5"/><circle cx="310" cy="120" r="5"/>
+            </g>
+        </svg>
+        <svg class="vine-br" viewBox="0 0 800 600" fill="none">
+            <path d="M740,520 C640,560 520,540 460,560 400,580 320,560 240,520" stroke="rgba(183,245,200,.35)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M680,460 C580,520 460,500 360,550" stroke="rgba(143,209,140,.55)" stroke-width="8" stroke-linecap="round"/>
+            <g fill="rgba(143,209,140,.55)">
+                <circle cx="620" cy="490" r="6"/><circle cx="520" cy="540" r="5"/><circle cx="430" cy="530" r="5"/>
+            </g>
+        </svg>
+    </div>
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:bg-white focus:text-[--navy] focus:px-3 focus:py-2 focus:rounded">Skip to main content</a>
 
     <div class="md:hidden header-bg sparkle text-white">
@@ -155,7 +223,8 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-[260px_minmax(0,1fr)] gap-6 py-6">
         <aside class="hidden md:block sidebar" aria-label="Section navigation">
-            <div class="rounded-xl p-4 glow">  <div class="text-xl font-extrabold text-[--gold] mb-1">The Living Lab</div>
+            <div class="rounded-xl p-4 glow">
+                <div class="text-xl font-extrabold text-[--gold] mb-1">The Living Lab</div>
                 <p class="text-xs text-gray-400 mb-3">From Tools to Impact</p>
                 <nav class="space-y-1 text-sm">
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#about">What is this?</a>
@@ -171,6 +240,12 @@
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#sell">Sell It</a>
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#connect">Join</a>
                 </nav>
+                <div class="mt-4 pt-4 border-t border-gray-700">
+                    <button id="toggle-decor" class="w-full px-3 py-1 rounded border border-gray-600 text-xs hover:bg-gray-700"
+                        onclick="document.documentElement.classList.toggle('hide-decor')">
+                        Toggle Decorations
+                    </button>
+                </div>
             </div>
         </aside>
 
@@ -198,12 +273,12 @@
         </div>
 
         <main id="main">
-            <section id="home" class="header-bg sparkle text-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="home" class="header-bg sparkle text-white rounded-xl p-6 glow">
                 <h1 class="text-4xl font-extrabold mb-2 accent">From Tools to Impact</h1>
                 <p class="text-lg/7 opacity-95">Turn AI into a thinking partner, not a crutch. Pick the right tool, change the habit, show the evidence.</p>
             </section>
 
-            <section id="about" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="about" class="mt-6 bg-white rounded-xl p-6 glow">
                 <div class="underline-anim mb-3"></div>
                 <h2 class="text-2xl font-extrabold mb-2">What is this place? How do I use it?</h2>
                 <p class="text-gray-400 mb-3">A do-it-now site for teachers, leaders, and central office. Every section tells you why it matters, what to type, and gives you something to <strong>copy, download, or email</strong>.</p>
@@ -217,7 +292,7 @@
                 <p class="text-xs text-gray-500 mt-2">Badges: <span class="font-semibold">[Drop-in AI]</span> = paste directly into a model; <span class="font-semibold">[Human workflow]</span> = use with your team.</p>
             </section>
 
-            <section id="guided" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="guided" class="mt-6 bg-white rounded-xl p-6 glow">
                 <div class="flex items-center gap-2 mb-2">
                     <span class="text-xs px-2 py-1 rounded bg-yellow-100 border text-black">7 minutes</span>
                     <h2 class="text-2xl font-extrabold">Guided Mode</h2>
@@ -244,7 +319,7 @@
                 </div>
             </section>
 
-            <section id="framework" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="framework" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold mb-1">Core Framework: The Impact Ladder</h2>
                 <div class="text-sm text-gray-400 mb-3">Move from <strong>tool</strong> → <strong>use</strong> → <strong>behavior</strong> → <strong>outcome</strong> → <strong>evidence</strong>.</div>
                 <div class="grid grid-cols-5 text-center text-xs font-bold text-gray-400 mb-4">
@@ -298,7 +373,7 @@
                 </details>
             </section>
 
-            <section id="planner" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="planner" class="mt-6 bg-white rounded-xl p-6 glow">
                 <div class="flex items-start justify-between">
                     <div>
                         <h2 class="text-2xl font-extrabold">Tool-to-Impact Planner <span class="text-xs align-middle ml-2 px-2 py-1 rounded bg-green-100 border text-white">[Human workflow]</span></h2>
@@ -333,12 +408,13 @@
                     <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="plannerExplain()">Generate Plan</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="openEvidenceModal('planner')">Evidence Menu</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPlan()">Download</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlan()">Copy Raw Text</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlannerEmailPrompt()">Copy AI Polish Prompt</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('planner-output','Tool-to-Impact Planner')">Email</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPlannerEmailPrompt()">Copy AI Polish Prompt</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('planner-output','Tool-to-Impact Planner')">Email</button>
                 </div>
                 <div id="planner-output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
 
-            <section id="data-prep" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="data-prep" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">Data Prep Coach <span class="text-xs ml-2 px-2 py-1 rounded bg-indigo-100 border text-white">[Drop-in AI]</span></h2>
                 <p class="text-sm text-gray-400 mb-2">Turn a messy idea into an <strong>AI-ready spec + CSV + checklist</strong>. Plain-English help chips explain terms.</p>
 
@@ -389,7 +465,8 @@
                     <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="dpExplain()">Make Spec</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadCSVTemplate()">CSV Template</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPrepChecklist()">Checklist</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDataPrompt()">Copy AI Prompt (Raw Spec)</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDPExplainPrompt()">Copy AI Explain Prompt</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('dp_output','Data Prep Spec')">Email</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyDPExplainPrompt()">Copy AI Explain Prompt</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('dp-output','Data Prep Spec')">Email</button>
                 </div>
 
                 <div class="mt-4 text-xs text-gray-400">
@@ -399,7 +476,7 @@
                 <div id="dp_output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
 
-            <section id="platform-finder" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="platform-finder" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">AI Platform Finder <span class="text-xs ml-2 px-2 py-1 rounded bg-indigo-100 border text-white">[Drop-in AI + Human]</span></h2>
                 <p class="text-sm text-gray-400 mb-2">Choose by need, not hype. Pick categories, get example tools, copy search strings, use the rubric.</p>
 
@@ -460,7 +537,8 @@
                 <div class="mt-3 flex flex-wrap gap-2">
                     <button class="gold-btn px-4 py-2 rounded lift" type="button" onclick="pfExplain()">Generate Rec</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="downloadPFChecklist()">Download Checklist</button>
                     <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copySearchString()">Copy Search String</button>
-                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPFTradeoffsPrompt()">Copy AI Memo Prompt</button> <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('pf_output','Platform Finder Rec')">Email</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="copyPFTradeoffsPrompt()">Copy AI Memo Prompt</button>
+                    <button class="px-4 py-2 rounded border lift bg-gray-700 hover:bg-gray-600" type="button" onclick="emailElementText('pf_output','Platform Finder Rec')">Email</button>
                 </div>
 
                 <details class="mt-5 p-4 rounded text-sm">
@@ -496,7 +574,7 @@
                 <div id="pf_output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
 
-            <section id="risen" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="risen" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">RISEN Prompt Studio <span class="text-xs ml-2 px-2 py-1 rounded bg-indigo-100 border text-white">[Drop-in AI]</span></h2>
                 <p class="text-sm text-gray-400 mb-2">Train AI to act like a critical-thinking partner: <strong>Relevance, Intent, Specificity, Execution, Navigation</strong>.</p>
                 <div class="grid gap-3">
@@ -529,7 +607,7 @@
                 <div id="risen-output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
 
-            <section id="story" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="story" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">3-Sentence Story <span class="text-xs ml-2 px-2 py-1 rounded bg-green-100 border text-white">[Human workflow]</span></h2>
                 <p class="text-sm text-gray-400 mb-2">Build a concise narrative: **Setup → Action → Win**.</p>
                 <div class="grid gap-3">
@@ -546,7 +624,7 @@
                 <div id="story-output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
 
-            <section id="ten-day" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="ten-day" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">10-Day Plan (Sprint) <span class="text-xs ml-2 px-2 py-1 rounded bg-green-100 border text-white">[Human workflow]</span></h2>
                 <p class="text-sm text-gray-400 mb-2">A high-cadence, short-cycle plan to drive early evidence.</p>
                 <div class="grid md:grid-cols-2 gap-3">
@@ -570,7 +648,7 @@
                 <div id="ten-day-output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
 
-            <section id="process-plug" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="process-plug" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">Process Plug-In <span class="text-xs ml-2 px-2 py-1 rounded bg-green-100 border text-white">[Human workflow]</span></h2>
                 <p class="text-sm text-gray-400 mb-2">Identify a pain point in an existing meeting and plug in a tool-driven action.</p>
                 <div class="grid gap-3">
@@ -588,7 +666,7 @@
                 <div id="process-plug-output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
 
-            <section id="sell" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="sell" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">Sell It (Value Prop) <span class="text-xs ml-2 px-2 py-1 rounded bg-green-100 border text-white">[Human workflow]</span></h2>
                 <p class="text-sm text-gray-400 mb-2">Define your pitch by focusing on solving stakeholder pain points.</p>
                 <div class="grid gap-3">
@@ -606,7 +684,7 @@
                 <div id="sell-output" class="hidden mt-4 p-4 bg-gray-50 border rounded text-sm"></div>
             </section>
             
-            <section id="connect" class="mt-6 bg-white rounded-xl p-6 glow">
+            <div class="lab-divider" aria-hidden="true"></div> <section id="connect" class="mt-6 bg-white rounded-xl p-6 glow">
                 <h2 class="text-2xl font-extrabold">Join the Conversation & Connect</h2>
                 <p class="text-sm text-gray-400 mb-3">Connect with Elizabeth Bostic for PD, consulting, or general discussion.</p>
                 <div class="flex flex-wrap gap-2">
@@ -777,17 +855,17 @@
             ].join('\n');
 
             const out = `BEGINNER SUMMARY\n${summary}\n\n— — —\n\nQC CHECKLIST\n${checklist}`;
-            setOut('dp-output', out);
+            setOut('dp_output', out);
         };
 
         window.copyDPExplainPrompt = () => {
-            const spec = ($('dp-output')?.textContent || '').trim();
+            const spec = ($('dp_output')?.textContent || '').trim();
             const prompt = `You are a friendly, non-technical instructional coach. Rewrite the content below into: (1) a 3-sentence explanation a teacher can read aloud, and (2) a numbered, 7-step checklist. Keep language plain.\n\n---\n${spec}`;
             copyTxt(prompt);
             showToast('AI prompt copied.', 'info');
         };
 
-        window.makeDataSpec = () => { // Original Data Spec Generator (renamed to avoid conflict)
+        window.makeDataSpec = () => { 
             const spec = [
                 `Goal/Decision: ${text('dp_goal')}`,
                 `Primary metric: ${text('dp_outcome')}`,
@@ -800,7 +878,7 @@
                 `Privacy: ${text('dp_privacy')}`,
                 `Quality: ${text('dp_quality')}`
             ].join('\n');
-            setOut('dp-output', spec);
+            setOut('dp_output', spec);
         };
 
         window.downloadCSVTemplate = () => {
@@ -824,7 +902,7 @@
     3) a quality-check list.
     
     Spec:
-    ${$('dp-output')?.textContent || '(fill the form first)'}`;
+    ${$('dp_output')?.textContent || '(fill the form first)'}`;
             copyTxt(p);
         };
 
@@ -849,7 +927,7 @@
             const memo = [
                 `Goal: ${goal}. Inputs: ${inputs.join(', ') || 'text'} → Outputs: ${outputs.join(', ') || 'document'}.`,
                 `Tradeoffs: risk = ${risk}; time-to-value = ${time}; collaboration = ${collab}; constraints = ${flags.join(', ') || 'none'}.`,
-                `Biggest watch-outs: ${risk === 'high' ? 'public/audit risk' : 'imited impact scope'}, ${flags.includes('student privacy/FERPA') ? 'privacy approvals' : 'standard usage'}, and ${collab !== 'team' ? 'limited co-editing' : 'team coordination required'}.`
+                `Biggest watch-outs: ${risk === 'high' ? 'public/audit risk' : 'limited impact scope'}, ${flags.includes('student privacy/FERPA') ? 'privacy approvals' : 'standard usage'}, and ${collab !== 'team' ? 'limited co-editing' : 'team coordination required'}.`
             ].join(' ');
             setOut('pf_output', memo);
         };
@@ -861,7 +939,7 @@
             showToast('AI prompt copied.', 'info');
         };
 
-        window.generatePlatformRec = () => { // Original Platform Rec Generator (renamed to avoid conflict)
+        window.generatePlatformRec = () => { 
             const goal = $('pf_goal')?.value || 'create';
             const inputs = Array.from($('pf_inputs')?.selectedOptions || []).map(o => o.value);
             const outputs = Array.from($('pf_outputs')?.selectedOptions || []).map(o => o.value);
