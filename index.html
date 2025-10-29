@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
     
     <script>
+    const $ = (id) => document.getElementById(id); // Move helper up for DOMContentLoaded
     (function () {
         const s = document.createElement('script');
         s.src = 'https://cdn.tailwindcss.com?plugins=forms,typography&v=20251028'; 
@@ -124,12 +125,13 @@
             scroll-behavior: smooth 
         }
         
-        /* Sidebar Link Readability Fix */
+        /* Sidebar/Mobile Nav Link Fixes */
         aside a { color: var(--text-color); }
         aside a:hover { background-color: rgba(255,255,255,0.1); } 
-        
-        /* Hero text (if inheriting from sparkle/header-bg) */
         .header-bg, .sparkle { color: var(--text-color) !important; }
+
+        /* WCAG Contrast Fix: Bump Faint Gray Text to a Readable Contrast (gray-600) */
+        .text-gray-400 { color: #718096 !important; } 
 
         .glow { 
             background: var(--card-bg); 
@@ -166,11 +168,12 @@
         }
         
         /* Mobile Drawer Specific Fix */
-        .mobile-nav { background: rgba(0,0,0,0.8); } /* Darker backdrop fix */
+        .mobile-nav { background: rgba(0,0,0,0.8); }
     </style>
 </head>
 
-<body class=""> <div class="lab-vines" aria-hidden="true">
+<body class=""> 
+    <div class="lab-vines" aria-hidden="true">
         <svg class="vine-tl" viewBox="0 0 800 600" fill="none">
             <path d="M20,120 C120,40 280,80 360,40 420,10 520,20 600,60" stroke="rgba(183,245,200,.35)" stroke-width="14" stroke-linecap="round"/>
             <path d="M80,180 C180,120 300,140 400,90" stroke="rgba(143,209,140,.55)" stroke-width="8" stroke-linecap="round"/>
@@ -208,10 +211,10 @@
                 <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#framework">Impact Ladder</a>
                 <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#planner">Planner</a>
                 <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#data-prep">Data Prep Coach</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#platform-finder">Platform Finder</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#risen">RISEN</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#story">Story</a>
-                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#ten-day">10-Day</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#platform-finder">AI Platform Finder</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#risen">RISEN Prompt Studio</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#story">3-Sentence Story</a>
+                <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#ten-day">10-Day Plan</a>
                 <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#process-plug">Process Plug-In</a>
                 <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#sell">Sell It</a>
                 <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#connect">Join</a>
@@ -231,7 +234,7 @@
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#planner">Planner</a>
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#data-prep">Data Prep Coach</a>
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#platform-finder">AI Platform Finder</a>
-                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#risen">RISEN Studio</a>
+                    <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#risen">RISEN Prompt Studio</a>
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#story">3-Sentence Story</a>
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#ten-day">10-Day Plan</a>
                     <a class="block px-3 py-2 rounded hover:bg-gray-700" href="#process-plug">Process Plug-In</a>
@@ -539,7 +542,7 @@
                             <ul class="list-disc list-inside"><li>LLM “upload file” readers (Freemium)</li><li>Specialized PDF Q&A apps (Freemium)</li></ul>
                         </div>
                         <div>
-                            <p class="font-semibold">Comms / Video</p>
+                            <p class="p-3 border rounded w-full">Comms / Video</p>
                             <ul class="list-disc list-inside"><li>Loom / Screencastify (Freemium)</li><li>Edpuzzle (Freemium)</li><li>Flip (Free)</li></ul>
                         </div>
                         <div>
@@ -679,7 +682,7 @@
 
     <script>
         /* ---------- tiny helpers ---------- */
-        const $ = (id) => document.getElementById(id);
+        // const $ = (id) => document.getElementById(id); // Defined above CDN loader
         const show = (id) => { const el = $(id); if (el) el.classList.remove('hidden'); };
         const text = (id) => ($(id)?.value || '').trim();
         const setOut = (id, s) => { const el = $(id); if (el) { el.textContent = s; show(id); } };
@@ -720,11 +723,21 @@
         };
         const mail = (subject, body) => { location.href = `mailto:edbostic83@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; };
 
-        /* ---------- help chips ---------- */
+        /* ---------- help chips (UX FIX: Mouseleave close) ---------- */
         window.toggleChip = (btn) => {
             const wrap = btn.closest('.chip-wrap'); if (!wrap) return;
-            wrap.classList.toggle('show');
-            setTimeout(() => wrap.classList.remove('show'), 3500);
+            const open = wrap.classList.toggle('show');
+            if (open){
+                const tip = wrap.querySelector('.chip-tip');
+                // Remove existing listeners first to prevent duplicates
+                tip?.removeEventListener('mouseleave', tip.off); 
+                const off = () => { 
+                    wrap.classList.remove('show'); 
+                    tip?.removeEventListener('mouseleave', off); 
+                };
+                tip.off = off; // Store the function reference
+                tip?.addEventListener('mouseleave', off);
+            }
         };
 
         /* ---------- Impact Ladder tabs ---------- */
@@ -801,7 +814,15 @@
         };
         window.downloadPlan    = () => dl('tool-to-impact-plan.txt', $('planner-output')?.textContent || '');
         window.copyPlan        = () => copyTxt($('planner-output')?.textContent || '');
-        window.emailElementText = (id, subject) => mail(subject, $(id)?.textContent || '');
+        
+        // UX FIX: Add length check for mailto link safety
+        window.emailElementText = (id, subject) => {
+            const body = ($(id)?.textContent || '').trim();
+            if (body.length > 1500) { 
+                showToast('Warning: Text is long—copy it or download instead.', 'info'); 
+            }
+            mail(subject, body);
+        };
 
         /* ===== DATA PREP COACH FUNCTIONS ===== */
 
@@ -833,11 +854,11 @@
             ].join('\n');
 
             const out = `BEGINNER SUMMARY\n${summary}\n\n— — —\n\nQC CHECKLIST\n${checklist}`;
-            setOut('dp_output', out);
+            setOut('dp_output', out); // FIXED: Target 'dp_output'
         };
 
         window.copyDPExplainPrompt = () => {
-            const spec = ($('dp_output')?.textContent || '').trim();
+            const spec = ($('dp_output')?.textContent || '').trim(); // FIXED: Target 'dp_output'
             const prompt = `You are a friendly, non-technical instructional coach. Rewrite the content below into: (1) a 3-sentence explanation a teacher can read aloud, and (2) a numbered, 7-step checklist. Keep language plain.\n\n---\n${spec}`;
             copyTxt(prompt);
             showToast('AI prompt copied.', 'info');
@@ -856,7 +877,7 @@
                 `Privacy: ${text('dp_privacy')}`,
                 `Quality: ${text('dp_quality')}`
             ].join('\n');
-            setOut('dp_output', spec);
+            setOut('dp_output', spec); // FIXED: Target 'dp_output'
         };
 
         window.downloadCSVTemplate = () => {
@@ -880,7 +901,7 @@
     3) a quality-check list.
     
     Spec:
-    ${$('dp_output')?.textContent || '(fill the form first)'}`;
+    ${$('dp_output')?.textContent || '(fill the form first)'}`; // FIXED: Target 'dp_output'
             copyTxt(p);
         };
 
@@ -1088,18 +1109,25 @@ Search string:
             location.href = `mailto:edbostic83@gmail.com?subject=PD/Consulting%20Inquiry&body=${body}`;
         };
         
-        // CRITICAL MOBILE DRAWER LISTENERS
+        // CRITICAL MOBILE DRAWER LISTENERS (BUG FIX)
         document.addEventListener('DOMContentLoaded', () => {
             const nav = $('mobileNav');
             const openBtn = $('mobileOpenBtn');
             const closeBtn = $('mobileCloseBtn');
-            const showNav = () => nav?.classList.remove('hidden');
-            const hideNav = () => nav?.classList.add('hidden');
-
-            openBtn?.addEventListener('click', showNav);
-            closeBtn?.addEventListener('click', hideNav);
+            
+            // Fix 2: Mobile nav toggle
+            if (!openBtn || !closeBtn || !nav) return;
+            const showNav = () => { nav.classList.remove('hidden'); openBtn.setAttribute('aria-expanded','true'); };
+            const hideNav = () => { nav.classList.add('hidden'); openBtn.setAttribute('aria-expanded','false'); };
+            
+            openBtn.addEventListener('click', showNav);
+            closeBtn.addEventListener('click', hideNav);
             // click outside the panel closes it
-            nav?.addEventListener('click', (e) => { if (e.target === nav) hideNav(); });
+            nav.addEventListener('click', (e) => { 
+                // Check if the click occurred on the backdrop (the nav itself)
+                if (e.target === nav) hideNav(); 
+            });
+            // Initial call is handled by the 'hidden' class in the HTML (already there)
         });
     </script>
     </body>
